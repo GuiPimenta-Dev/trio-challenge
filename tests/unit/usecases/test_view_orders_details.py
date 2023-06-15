@@ -1,7 +1,6 @@
 from src.application.usecases.view_order_details import ViewOrderDetails
-from src.domain.entities.product import Product
 from src.infra.repositories.orders import InMemoryOrdersRepository
-from tests.utils.builders.orders import OrderBuilder
+from tests.utils.builders.order import OrderBuilder
 
 
 def test_it_should_list_all_orders_details():

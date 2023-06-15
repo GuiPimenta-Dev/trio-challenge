@@ -44,7 +44,7 @@ def test_order_is_successfuly_created_in_orders_repository(repositories):
     assert order.id is not None
     assert order.customer_id == "id"
     assert len(order.products) == 2
-    assert order.status.value == "waiting"
+    assert order.status == "Waiting"
 
 
 def test_error_is_raised_if_customer_is_not_found(repositories):
