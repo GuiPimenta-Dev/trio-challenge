@@ -25,3 +25,9 @@ class InMemoryOrdersRepository(OrdersRepository):
             if order_in_list.id == order.id:
                 self.orders[index] = deepcopy(order)
                 return
+
+    def delete(self, order_id: str) -> None:
+        for index, order in enumerate(self.orders):
+            if order.id == order_id:
+                del self.orders[index]
+                return
