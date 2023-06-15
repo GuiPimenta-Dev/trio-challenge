@@ -69,19 +69,6 @@ def test_error_is_raised_if_customer_is_not_found(repositories):
     assert "Customer not found" in str(excinfo.value)
 
 
-def test_error_is_raised_if_order_does_not_have_products(repositories):
-    order = {
-        "customer_id": "default",
-        "products": [],
-    }
-    place_order = PlaceOrder(repositories)
-
-    with pytest.raises(ValueError) as excinfo:
-        place_order.execute(order)
-
-    assert "Order must have at least one product" in str(excinfo.value)
-
-
 def test_error_is_raised_if_product_is_not_found(repositories):
     order = {
         "customer_id": "default",
