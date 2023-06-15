@@ -14,6 +14,7 @@ class OrderBuilder:
     def __init__(self, **kwargs):
         self.products = []
         self.status = "waiting"
+        self.customer_id = "default"
         self.states = {
             "waiting": Waiting(),
             "preparation": Preparation(),
@@ -29,10 +30,14 @@ class OrderBuilder:
         self.status = status
         return self
 
+    def with_customer_id(self, customer_id):
+        self.customer_id = customer_id
+        return self
+
     def build(self) -> Order:
         order_dto = OrderDTO(
             id=str(uuid.uuid4()),
-            customer_id="id",
+            customer_id=self.customer_id,
             products=self.products,
             location="in-house",
         )

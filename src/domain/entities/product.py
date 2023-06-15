@@ -1,5 +1,5 @@
 class Product:
-    def __init__(self, name, variations):
+    def __init__(self, name, variations=[]):
         self.name = name
         self.variation = None
         self.variations = variations

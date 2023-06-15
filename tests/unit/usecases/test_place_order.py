@@ -12,7 +12,7 @@ def repositories():
     products_repository = InMemoryProductsRepository()
     orders_repository = InMemoryOrdersRepository()
     customers_repository = InMemoryCustomersRepository()
-    customers_repository.add(Customer("id", "customer@test.com"))
+    customers_repository.create_default_customer()
 
     yield {
         "products_repository": products_repository,
@@ -23,7 +23,7 @@ def repositories():
 
 def test_order_is_successfuly_created_in_orders_repository(repositories):
     order = {
-        "customer_id": "id",
+        "customer_id": "default",
         "products": [
             {
                 "name": "Latte",
@@ -42,7 +42,7 @@ def test_order_is_successfuly_created_in_orders_repository(repositories):
     order = repositories["orders_repository"].list_all()[0]
 
     assert order.id is not None
-    assert order.customer_id == "id"
+    assert order.customer_id == "default"
     assert len(order.products) == 2
     assert order.status == "Waiting"
 
@@ -71,7 +71,7 @@ def test_error_is_raised_if_customer_is_not_found(repositories):
 
 def test_error_is_raised_if_order_does_not_have_products(repositories):
     order = {
-        "customer_id": "id",
+        "customer_id": "default",
         "products": [],
     }
     place_order = PlaceOrder(repositories)
@@ -84,7 +84,7 @@ def test_error_is_raised_if_order_does_not_have_products(repositories):
 
 def test_error_is_raised_if_product_is_not_found(repositories):
     order = {
-        "customer_id": "id",
+        "customer_id": "default",
         "products": [
             {
                 "name": "invalid_product",
@@ -102,7 +102,7 @@ def test_error_is_raised_if_product_is_not_found(repositories):
 
 def test_error_is_raised_if_product_variation_is_not_found(repositories):
     order = {
-        "customer_id": "id",
+        "customer_id": "default",
         "products": [
             {
                 "name": "Latte",
@@ -120,7 +120,7 @@ def test_error_is_raised_if_product_variation_is_not_found(repositories):
 
 def test_if_variation_is_saved_as_expected_on_the_database(repositories):
     order = {
-        "customer_id": "id",
+        "customer_id": "default",
         "products": [
             {
                 "name": "Latte",
@@ -143,7 +143,7 @@ def test_if_variation_is_saved_as_expected_on_the_database(repositories):
 
 def test_if_order_is_placed_with_take_away_location(repositories):
     order = {
-        "customer_id": "id",
+        "customer_id": "default",
         "products": [
             {
                 "name": "Latte",
@@ -165,7 +165,7 @@ def test_if_order_is_placed_with_take_away_location(repositories):
 
 def test_if_an_error_is_raised_if_location_is_invalid(repositories):
     order = {
-        "customer_id": "id",
+        "customer_id": "default",
         "products": [
             {
                 "name": "Latte",
@@ -186,7 +186,7 @@ def test_if_an_error_is_raised_if_location_is_invalid(repositories):
 
 def test_if_default_location_is_in_house(repositories):
     order = {
-        "customer_id": "id",
+        "customer_id": "default",
         "products": [
             {
                 "name": "Latte",

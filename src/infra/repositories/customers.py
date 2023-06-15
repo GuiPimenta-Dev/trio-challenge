@@ -13,3 +13,6 @@ class InMemoryCustomersRepository(CustomersRepository):
         return next(
             (customer for customer in self.customers if customer.id == id), None
         )
+
+    def create_default_customer(self) -> Customer:
+        self.add(Customer(id="default", email="default@test.com"))
