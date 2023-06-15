@@ -57,4 +57,4 @@ def test_order_should_not_change_from_delivered():
     with pytest.raises(Exception) as excinfo:
         order.process()
 
-    assert "Delivered order cannot be processed" in str(excinfo.value)
+    assert "Order already delivered" in str(excinfo.value)

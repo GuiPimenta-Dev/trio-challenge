@@ -12,8 +12,8 @@ class OrderStatus(ABC):
         return self.__class__.__name__.capitalize()
 
     @abstractmethod
-    def process(self, order):
-        raise NotImplementedError()
+    def process(self, order):  # pragma: no cover
+        raise NotImplementedError
 
 
 class Waiting(OrderStatus):
@@ -33,7 +33,7 @@ class Ready(OrderStatus):
 
 class Delivered(OrderStatus):
     def process(self, order):
-        raise Exception("Delivered order cannot be processed")
+        raise Exception("Order already delivered")
 
 
 @dataclass

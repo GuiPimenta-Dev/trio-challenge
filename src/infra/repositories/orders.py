@@ -1,3 +1,4 @@
+from copy import deepcopy
 from typing import List
 
 from src.application.ports.repositories.orders import OrdersRepository
@@ -13,3 +14,14 @@ class InMemoryOrdersRepository(OrdersRepository):
 
     def list_all(self) -> List[Order]:
         return self.orders
+
+    def find_by_id(self, order_id: int) -> Order:
+        for order in self.orders:
+            if order.id == order_id:
+                return deepcopy(order)
+
+    def update(self, order: Order):
+        for index, order_in_list in enumerate(self.orders):
+            if order_in_list.id == order.id:
+                self.orders[index] = deepcopy(order)
+                return
