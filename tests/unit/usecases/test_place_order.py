@@ -139,3 +139,66 @@ def test_if_variation_is_saved_as_expected_on_the_database(repositories):
 
     assert order.products[0].variation == "Vanilla"
     assert order.products[1].variation is None
+
+
+def test_if_order_is_placed_with_take_away_location(repositories):
+    order = {
+        "customer_id": "id",
+        "products": [
+            {
+                "name": "Latte",
+                "variation": "Vanilla",
+            },
+            {
+                "name": "Latte",
+            },
+        ],
+        "location": "take-away",
+    }
+    place_order = PlaceOrder(repositories)
+
+    place_order.execute(order)
+
+    order = repositories["orders_repository"].list_all()[0]
+    assert order.location == "take-away"
+
+
+def test_if_an_error_is_raised_if_location_is_invalid(repositories):
+    order = {
+        "customer_id": "id",
+        "products": [
+            {
+                "name": "Latte",
+                "variation": "Vanilla",
+            },
+            {
+                "name": "Latte",
+            },
+        ],
+        "location": "invalid-location",
+    }
+    place_order = PlaceOrder(repositories)
+    with pytest.raises(ValueError) as excinfo:
+        place_order.execute(order)
+
+    assert "Invalid location" in str(excinfo.value)
+
+
+def test_if_default_location_is_in_house(repositories):
+    order = {
+        "customer_id": "id",
+        "products": [
+            {
+                "name": "Latte",
+                "variation": "Vanilla",
+            },
+            {
+                "name": "Latte",
+            },
+        ],
+    }
+    place_order = PlaceOrder(repositories)
+    place_order.execute(order)
+
+    order = repositories["orders_repository"].list_all()[0]
+    assert order.location == "in-house"

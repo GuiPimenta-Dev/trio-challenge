@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from enum import Enum
 from typing import List
 
 from src.domain.entities.product import Product
@@ -37,10 +38,17 @@ class Delivered(OrderStatus):
 
 
 @dataclass
+class Location:
+    IN_HOUSE = "in-house"
+    TAKE_AWAY = "take-away"
+
+
+@dataclass
 class OrderDTO:
     id: str
     customer_id: str
     products: List[Product]
+    location: Location
     status: OrderStatus = Waiting()
 
 
@@ -50,6 +58,7 @@ class Order:
         self.customer_id = order_dto.customer_id
         self.products = order_dto.products
         self._status = order_dto.status
+        self.location = order_dto.location
 
     @property
     def status(self):

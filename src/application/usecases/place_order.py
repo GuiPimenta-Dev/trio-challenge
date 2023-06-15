@@ -5,7 +5,7 @@ from typing import List, Optional
 from src.application.ports.repositories.customers import CustomersRepository
 from src.application.ports.repositories.orders import OrdersRepository
 from src.application.ports.repositories.products import ProductsRepository
-from src.domain.entities.order import Order, OrderDTO
+from src.domain.entities.order import Location, Order, OrderDTO
 
 from . import UseCase
 
@@ -20,6 +20,7 @@ class ProductDTO:
 class InputDTO:
     customer_id: str
     products: List[ProductDTO]
+    location: Location
 
 
 @dataclass
@@ -43,6 +44,10 @@ class PlaceOrder(UseCase):
         if not order.get("products"):
             raise ValueError("Order must have at least one product")
 
+        location = order.get("location", Location.IN_HOUSE)
+        if location not in [Location.IN_HOUSE, Location.TAKE_AWAY]:
+            raise ValueError("Invalid location")
+
         products = []
         for item in order["products"]:
             product = self.products_repository.find_by_name(item.get("name"))
@@ -56,7 +61,10 @@ class PlaceOrder(UseCase):
             products.append(product)
 
         order_dto = OrderDTO(
-            id=str(uuid.uuid4()), customer_id=customer.id, products=products
+            id=str(uuid.uuid4()),
+            customer_id=customer.id,
+            products=products,
+            location=location,
         )
         order = Order(order_dto)
         self.orders_repository.add(order)

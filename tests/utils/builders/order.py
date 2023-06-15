@@ -31,7 +31,10 @@ class OrderBuilder:
 
     def build(self) -> Order:
         order_dto = OrderDTO(
-            id=str(uuid.uuid4()), customer_id="id", products=self.products
+            id=str(uuid.uuid4()),
+            customer_id="id",
+            products=self.products,
+            location="in-house",
         )
         order = Order(order_dto)
         order.change_status(self.states[self.status])
