@@ -1,11 +1,14 @@
 class Product:
     def __init__(self, name, variations):
         self.name = name
-        self._variations = variations
+        self.variation = None
+        self.variations = variations
 
-    @property
-    def variations(self):
-        return self._variations
+    def choose_variation(self, variation):
+        variation_exists = variation.strip() in self.variations
+        if not variation_exists:
+            raise ValueError("Invalid variation")
+        self.variation = variation
 
-    def has_variation(self, variation):
-        return variation in self._variations
+    def __repr__(self) -> str:  # pragma: no cover
+        return str({"name": self.name, "variation": self.variation})
