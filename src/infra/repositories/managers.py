@@ -10,6 +10,7 @@ class InMemoryManagersRepository(ManagersRepository):
         self.managers.append(manager)
 
     def find_by_id(self, id: str) -> Manager:
-        return next(
-            (manager for manager in self.managers if manager.get("id") == id), None
-        )
+        return next((manager for manager in self.managers if manager.id == id), None)
+
+    def create_default_manager(self):
+        self.add(Manager("manager-id"))

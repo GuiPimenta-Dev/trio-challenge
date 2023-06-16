@@ -18,7 +18,7 @@ class ProductDTO:
 
 
 @dataclass
-class InputDTO:
+class PlaceOrderDTO:
     customer_id: str
     products: List[ProductDTO]
     location: Location
@@ -37,7 +37,7 @@ class PlaceOrder(UseCase):
         self.products_repository = repositories["products_repository"]
         self.orders_repository = repositories["orders_repository"]
 
-    def execute(self, order: InputDTO) -> None:
+    def execute(self, order: PlaceOrderDTO) -> None:
         customer = self.customers_repository.find_by_id(order.get("customer_id"))
         if not customer:
             raise ValueError("Customer not found")

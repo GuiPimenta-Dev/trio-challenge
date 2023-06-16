@@ -14,7 +14,7 @@ def test_a_manager_should_be_able_to_change_an_order_status():
     managers_repository = InMemoryManagersRepository()
     orders_repository = InMemoryOrdersRepository()
     broker = InMemoryBroker()
-    managers_repository.add({"id": "manager-id"})
+    managers_repository.create_default_manager()
     order = OrderBuilder().with_status("waiting").build()
     orders_repository.add(order)
 
@@ -49,7 +49,7 @@ def test_a_manager_should_not_be_able_to_change_the_status_of_a_non_existing_ord
     managers_repository = InMemoryManagersRepository()
     orders_repository = InMemoryOrdersRepository()
     broker = InMemoryBroker()
-    managers_repository.add({"id": "manager-id"})
+    managers_repository.create_default_manager()
 
     change_order_status = ChangeOrderStatus(
         managers_repository, orders_repository, broker
@@ -71,7 +71,8 @@ def test_if_an_email_is_sent_after_every_order_status_change():
     status_changed_handler = StatusChangedHandler(mailer_spy, customers_repository)
     broker.subscribe(status_changed_handler)
     order = OrderBuilder().with_status("waiting").build()
-    managers_repository.add({"id": "manager-id"})
+    managers_repository.create_default_manager()
+
     orders_repository.add(order)
 
     change_order_status = ChangeOrderStatus(
@@ -93,7 +94,7 @@ def test_if_an_exception_is_raised_case_order_is_already_delivered():
     orders_repository = InMemoryOrdersRepository()
     broker = InMemoryBroker()
     order = OrderBuilder().with_status("delivered").build()
-    managers_repository.add({"id": "manager-id"})
+    managers_repository.create_default_manager()
     orders_repository.add(order)
 
     change_order_status = ChangeOrderStatus(
