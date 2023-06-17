@@ -15,4 +15,7 @@ def test_it_should_be_able_to_list_all_products():
             "name": "Iced Drinks",
             "variations": ["Smoothie", "Iced Coffee", "Iced Macchiato"],
         },
+        {"name": "Tea", "variations": []},
+        {"name": "Hot Chocolate", "variations": ["Small", "Medium", "Large"]},
+        {"name": "Donuts", "variations": ["Glazed", "Jelly", "Boston Cream"]},
     ]

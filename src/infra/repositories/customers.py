@@ -15,4 +15,4 @@ class InMemoryCustomersRepository(CustomersRepository):
         )
 
     def create_default_customer(self) -> Customer:
-        self.add(Customer(id="default", email="default@test.com"))
+        self.add(Customer(id="default", email="guialvespimenta27@gmail.com"))

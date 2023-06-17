@@ -6,10 +6,6 @@ from src.domain.entities.product import Product
 
 class ProductsRepository(ABC):
     @abstractmethod
-    def add(self, product: Product):
-        raise NotImplementedError
-
-    @abstractmethod
     def find_by_name(self, name: str) -> Product:
         raise NotImplementedError
 
