@@ -1,11 +1,14 @@
 from abc import ABC, abstractmethod
 
+from src.application.handlers import Handler
+from src.domain.events import Event
+
 
 class Broker(ABC):
     @abstractmethod
-    def publish(self, topic: str, message: str) -> None:
+    def publish(self, event: Event) -> None:
         pass
 
     @abstractmethod
-    def subscribe(self, topic: str, callback) -> None:
+    def subscribe(self, handler: Handler) -> None:
         pass

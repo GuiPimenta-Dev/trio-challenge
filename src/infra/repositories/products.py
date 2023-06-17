@@ -7,10 +7,14 @@ from src.domain.entities.product import Product
 
 class InMemoryProductsRepository(ProductsRepository):
     def __init__(self):
-        self.products = []
-        self.add(Product("Latte", ["Pumpkin Spice", "Vanilla", "Hazelnut"]))
-        self.add(Product("Cappuccino", ["Small", "Medium", "Large"]))
-        self.add(Product("Iced Drinks", ["Smoothie", "Iced Coffee", "Iced Macchiato"]))
+        self.products = [
+            Product("Latte", ["Pumpkin Spice", "Vanilla", "Hazelnut"]),
+            Product("Cappuccino", ["Small", "Medium", "Large"]),
+            Product("Iced Drinks", ["Smoothie", "Iced Coffee", "Iced Macchiato"]),
+            Product("Tea", []),
+            Product("Hot Chocolate", ["Small", "Medium", "Large"]),
+            Product("Donuts", ["Glazed", "Jelly", "Boston Cream"]),
+        ]
 
     def add(self, product: Product):
         self.products.append(product)
