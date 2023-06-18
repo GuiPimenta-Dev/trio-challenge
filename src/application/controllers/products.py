@@ -9,7 +9,7 @@ router = APIRouter()
 
 
 @router.get("/menu")
-@HttpException.error_handler
+@HttpException.handle_exceptions
 async def view_menu():
     view_menu = ViewMenu(Config.products_repository)
     menu = view_menu.execute()

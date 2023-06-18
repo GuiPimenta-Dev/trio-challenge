@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List, Optional
 
 from src.application.errors.bad_request import BadRequest
-from src.application.errors.forbidden import Forbidden
+from src.application.errors.forbidden import Unauthorized
 from src.application.errors.not_found import NotFound
 from src.application.ports.repositories.customers import CustomersRepository
 from src.application.ports.repositories.orders import OrdersRepository
@@ -49,7 +49,7 @@ class UpdateOrder(UseCase):
             raise NotFound("Order not found")
 
         if old_order.customer_id != customer.id:
-            raise Forbidden("Customer not allowed to update this order")
+            raise Unauthorized("Customer not allowed to update this order")
 
         if old_order.status != "Waiting":
             raise BadRequest(

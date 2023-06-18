@@ -9,7 +9,7 @@ class HttpException(Exception):
         self.message = message
 
     @staticmethod
-    def error_handler(func):
+    def handle_exceptions(func):
         @wraps(func)
         async def wrapper(*args, **kwargs):
             try:
