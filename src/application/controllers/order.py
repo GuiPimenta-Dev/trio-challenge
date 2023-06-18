@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Header, Request
 
-from src.application.errors import error_handler
+from src.application.errors import HttpException
 from src.application.usecases.cancel_order import CancelOrder
 from src.application.usecases.change_order_status import ChangeOrderStatus
 from src.application.usecases.place_order import PlaceOrder
@@ -13,7 +13,7 @@ router = APIRouter()
 
 
 @router.post("/orders")
-@error_handler
+@HttpException.error_handler
 async def place_order(request: Request):
     body = await request.json()
     customer_id = body.get("customer_id")
@@ -26,7 +26,7 @@ async def place_order(request: Request):
 
 
 @router.get("/orders")
-@error_handler
+@HttpException.error_handler
 async def list_orders():
     view_order_details = ViewOrderDetails(Config.orders_repository)
     orders = view_order_details.execute()
@@ -35,7 +35,7 @@ async def list_orders():
 
 
 @router.put("/orders/{order_id}")
-@error_handler
+@HttpException.error_handler
 async def update_order(order_id: str, request: Request):
     body = await request.json()
     customer_id = body.get("customer_id")
@@ -53,14 +53,14 @@ async def update_order(order_id: str, request: Request):
 
 
 @router.delete("/orders/{order_id}")
-@error_handler
+@HttpException.error_handler
 async def cancel_order(order_id: str):
     cancel_order = CancelOrder(Config.orders_repository)
     cancel_order.execute(order_id)
 
 
-@router.post("/manager/orders/{order_id}")
-@error_handler
+@router.post("/orders/{order_id}/status")
+@HttpException.error_handler
 async def manager_order(
     order_id: str,
     manager_id: str = Header(None, convert_underscores=False, case_sensitive=False),
