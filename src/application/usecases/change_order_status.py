@@ -1,5 +1,7 @@
 from dataclasses import dataclass
 
+from src.application.errors.forbidden import Forbidden
+from src.application.errors.not_found import NotFound
 from src.application.ports.broker.broker import Broker
 from src.application.ports.gateways.mailer import Mailer
 from src.application.ports.repositories.managers import ManagersRepository
@@ -29,11 +31,11 @@ class ChangeOrderStatus(UseCase):
     def execute(self, input_dto: InputDTO) -> None:
         manager = self.managers_repository.find_by_id(input_dto.get("manager_id"))
         if not manager:
-            raise Exception("You must be a manager to perform this action")
+            raise Forbidden("You must be a manager to perform this action")
 
         order = self.orders_repository.find_by_id(input_dto.get("order_id"))
         if not order:
-            raise Exception("Order not found")
+            raise NotFound("Order not found")
 
         order.process()
 

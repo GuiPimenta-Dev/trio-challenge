@@ -1,6 +1,9 @@
 from dataclasses import dataclass
 from typing import List, Optional
 
+from src.application.errors.bad_request import BadRequest
+from src.application.errors.forbidden import Forbidden
+from src.application.errors.not_found import NotFound
 from src.application.ports.repositories.customers import CustomersRepository
 from src.application.ports.repositories.orders import OrdersRepository
 from src.application.ports.repositories.products import ProductsRepository
@@ -39,23 +42,23 @@ class UpdateOrder(UseCase):
     def execute(self, new_order: InputDTO):
         customer = self.customer_repository.find_by_id(new_order.get("customer_id"))
         if not customer:
-            raise ValueError("Customer not found")
+            raise NotFound("Customer not found")
 
         old_order = self.orders_repository.find_by_id(new_order.get("order_id"))
         if not old_order:
-            raise ValueError("Order not found")
+            raise NotFound("Order not found")
 
         if old_order.customer_id != customer.id:
-            raise ValueError("Customer not allowed to update this order")
+            raise Forbidden("Customer not allowed to update this order")
 
         if old_order.status != "Waiting":
-            raise ValueError(
+            raise BadRequest(
                 "Order cannot be updated with a status different than Waiting"
             )
 
         location = new_order.get("location", old_order.location)
         if location not in [Location.IN_HOUSE, Location.TAKE_AWAY]:
-            raise ValueError("Invalid location")
+            raise BadRequest("Invalid location")
 
         products_service = ProductsService(self.products_repository)
         products = products_service.get_products(new_order.get("products"))

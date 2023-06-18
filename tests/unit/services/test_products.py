@@ -1,3 +1,4 @@
+from src.application.errors import HttpException
 from src.application.ports.repositories.products import ProductsRepository
 from src.domain.entities.product import Product
 from src.domain.service.products import ProductsService
@@ -25,7 +26,7 @@ def test_it_should_raise_an_error_if_there_is_no_products():
     products_dto = []
     try:
         products_service.get_products(products_dto)
-    except ValueError as error:
+    except HttpException as error:
         assert str(error) == "There must be at least one product"
 
 
@@ -33,5 +34,5 @@ def test_it_should_raise_an_error_if_product_is_not_found():
     products_dto = [{"name": "invalid_product"}]
     try:
         products_service.get_products(products_dto)
-    except ValueError as error:
+    except HttpException as error:
         assert str(error) == "Invalid product"

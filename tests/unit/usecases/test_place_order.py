@@ -1,5 +1,6 @@
 import pytest
 
+from src.application.errors import HttpException
 from src.application.usecases.place_order import PlaceOrder
 from src.domain.entities.customer import Customer
 from src.infra.repositories.customers import InMemoryCustomersRepository
@@ -63,7 +64,7 @@ def test_error_is_raised_if_customer_is_not_found(repositories):
     }
     place_order = PlaceOrder(repositories)
 
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(HttpException) as excinfo:
         place_order.execute(order)
 
     assert "Customer not found" in str(excinfo.value)
@@ -81,7 +82,7 @@ def test_error_is_raised_if_product_is_not_found(repositories):
     }
     place_order = PlaceOrder(repositories)
 
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(HttpException) as excinfo:
         place_order.execute(order)
 
     assert "Invalid product" in str(excinfo.value)
@@ -165,7 +166,7 @@ def test_if_an_error_is_raised_if_location_is_invalid(repositories):
         "location": "invalid-location",
     }
     place_order = PlaceOrder(repositories)
-    with pytest.raises(ValueError) as excinfo:
+    with pytest.raises(HttpException) as excinfo:
         place_order.execute(order)
 
     assert "Invalid location" in str(excinfo.value)

@@ -2,6 +2,8 @@ import uuid
 from dataclasses import dataclass
 from typing import List, Optional
 
+from src.application.errors.bad_request import BadRequest
+from src.application.errors.not_found import NotFound
 from src.application.ports.repositories.customers import CustomersRepository
 from src.application.ports.repositories.orders import OrdersRepository
 from src.application.ports.repositories.products import ProductsRepository
@@ -40,11 +42,11 @@ class PlaceOrder(UseCase):
     def execute(self, order: PlaceOrderDTO) -> None:
         customer = self.customers_repository.find_by_id(order.get("customer_id"))
         if not customer:
-            raise ValueError("Customer not found")
+            raise NotFound("Customer not found")
 
         location = order.get("location", Location.IN_HOUSE)
         if location not in [Location.IN_HOUSE, Location.TAKE_AWAY]:
-            raise ValueError("Invalid location")
+            raise BadRequest("Invalid location")
 
         products_service = ProductsService(self.products_repository)
         products = products_service.get_products(order.get("products"))

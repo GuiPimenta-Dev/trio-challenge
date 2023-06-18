@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List
 
+from src.application.errors.bad_request import BadRequest
 from src.domain.entities.product import Product
 
 
@@ -34,7 +35,7 @@ class Ready(OrderStatus):
 
 class Delivered(OrderStatus):
     def process(self, order):
-        raise Exception("Order already delivered")
+        raise BadRequest("Order already delivered")
 
 
 @dataclass
