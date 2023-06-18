@@ -1,9 +1,8 @@
 from dataclasses import dataclass
 
-from src.application.errors.forbidden import Unauthorized
 from src.application.errors.not_found import NotFound
+from src.application.errors.unauthorized import Unauthorized
 from src.application.ports.broker.broker import Broker
-from src.application.ports.gateways.mailer import Mailer
 from src.application.ports.repositories.managers import ManagersRepository
 from src.application.ports.repositories.orders import OrdersRepository
 from src.domain.events.status_changed import StatusChanged
