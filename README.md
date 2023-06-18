@@ -8,7 +8,7 @@ This document outlines the technical design for implementing the given tasks whi
 
 The core domain consists of the following entities and their functionalities:
 
-- **Managers**: Change products statuses.
+- **Managers**: Change the order status.
 - **Customers**: Order and customize their orders with several options from the catalog.
 - **Orders**: Have statuses (Waiting, Preparation, Ready, Delivered) and consume locations (In-house or Take away).
 - **Product**: Represents a product available in the catalog. It has properties such as name and variations.
