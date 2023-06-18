@@ -13,6 +13,24 @@ The core domain consists of the following entities and their functionalities:
 - **Orders**: Have statuses (Waiting, Preparation, Ready, Delivered) and consume locations (In-house or Take away).
 - **Product**: Represents a product available in the catalog. It has properties such as name and variations.
 
+## State Design Pattern
+
+The Order entity in this project has been designed utilizing the State design pattern. The State design pattern is a behavioral design pattern that allows an object to alter its behavior when its internal state changes. Here are the advantages and trade-offs of using the State design pattern for the Order entity:
+
+### Pros
+
+- **Single Responsibility Principle**: The State design pattern organizes the code related to specific states into separate classes. Each state class is responsible for handling the behavior and transitions associated with that particular state. This promotes a clear separation of concerns and improves the maintainability of the codebase.
+
+- **Open/Closed Principle**: The State design pattern allows for the introduction of new states without modifying existing state classes or the context. This makes the system more extensible and reduces the impact of changes in the future. New states can be easily added by implementing a new state class that adheres to the state interface.
+
+- **Simplified Context Code**: The State design pattern simplifies the code in the context by eliminating heavy state machine conditionals. Instead of having complex conditional logic in the context to handle different states, each state class encapsulates its own behavior. This leads to cleaner and more modular code, making it easier to understand and maintain.
+
+### Trade-offs
+
+- **Overhead for Simple State Machines**: Applying the State design pattern might be considered overkill if the state machine has only a few states or rarely changes. If the order state machine is relatively simple and there are no plans for frequent changes or additions to the states, using the State design pattern may introduce unnecessary complexity.
+
+I decided to use the State design pattern for the Order entity based on the possibility to easily include new status scenarios in the future.
+
 ## Application Layer
 
 The application layer acts as an intermediary between the domain layer and the infrastructure layer.
@@ -143,3 +161,46 @@ Download the Insomnia collection clicking in the button below.
 The project has been developed with a strong focus on unit testing. Unit tests have been implemented to achieve 100% coverage for the entities and use cases. The tests ensure the correctness and reliability of the system by validating the behavior of individual components and their interactions.
 
 The Test Data Builder Pattern was utilized to create various test scenarios and conditions. This pattern allows for the convenient creation of test data with different configurations, making it easier to verify the behavior of the system under different circumstances. By using the Test Data Builder Pattern, it becomes effortless to create complex and diverse test cases, ensuring thorough testing of the application's functionality.
+
+| File                                            | Stmts   | Miss  | Cover    |
+| ----------------------------------------------- | ------- | ----- | -------- |
+| src/application/errors/bad_request.py           | 4       | 0     | 100%     |
+| src/application/errors/forbidden.py             | 4       | 0     | 100%     |
+| src/application/errors/not_found.py             | 4       | 0     | 100%     |
+| src/application/handlers/status_changed.py      | 12      | 0     | 100%     |
+| src/application/usecases/cancel_order.py        | 13      | 0     | 100%     |
+| src/application/usecases/change_order_status.py | 29      | 0     | 100%     |
+| src/application/usecases/place_order.py         | 42      | 0     | 100%     |
+| src/application/usecases/update_order.py        | 50      | 0     | 100%     |
+| src/application/usecases/view_menu.py           | 7       | 0     | 100%     |
+| src/application/usecases/view_order_details.py  | 12      | 0     | 100%     |
+| src/domain/entities/customer.py                 | 4       | 0     | 100%     |
+| src/domain/entities/manager.py                  | 1       | 0     | 100%     |
+| src/domain/entities/order.py                    | 49      | 0     | 100%     |
+| src/domain/entities/product.py                  | 10      | 0     | 100%     |
+| src/domain/events/status_changed.py             | 7       | 0     | 100%     |
+| src/domain/service/products.py                  | 24      | 0     | 100%     |
+| src/infra/broker/broker.py                      | 12      | 0     | 100%     |
+| src/infra/repositories/customers.py             | 11      | 0     | 100%     |
+| src/infra/repositories/managers.py              | 11      | 0     | 100%     |
+| src/infra/repositories/orders.py                | 25      | 0     | 100%     |
+| src/infra/repositories/products.py              | 12      | 0     | 100%     |
+| **TOTAL**                                       | **343** | **0** | **100%** |
+
+Run the tests and the coverage report with the following commands:
+
+        $ coverage run -m pytest .
+        $ coverage report
+
+## Running the project
+
+To run the application, you can utilize Docker and execute the following commands:
+
+        $ docker build -t trio .
+        $ docker run -d -p 8000:8000 trio
+
+These commands build a Docker image for the application and then run a container based on that image, mapping port 8000 of the container to port 8000 of the host machine. This allows you to access the application through http://localhost:8000.
+
+Make sure you have Docker installed and running on your system before executing these commands.
+
+Thanks for reading!
