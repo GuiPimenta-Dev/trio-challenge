@@ -62,10 +62,6 @@ We opted for in-memory repositories to simplify and expedite the prototyping and
 
 However, it is crucial to note that our architecture is designed to be flexible and adaptable. We have followed the principles of dependency inversion and dependency injection to ensure that the data access and communication mechanisms can be easily replaced or integrated with real implementations as required in a production environment.
 
-By adhering to these architectural principles, we promote maintainability, extensibility, and the ability to adapt to evolving requirements or future enhancements. Our codebase remains decoupled from specific implementations, enabling seamless transitions to real repositories and smooth integration with actual databases or external systems when deploying the application to production.
-
-The architecture we have embraced provides the foundation for a flexible, scalable, and future-proof system, capable of seamlessly incorporating various infrastructure components as needed.
-
 ### Gateways
 
 The emails in this application are sent using the native SMTP Python library. To ensure decoupling of the library logic from the application, an adapter was created. The sender and receiver of the emails will be the same and will be defined based on the USERNAME environment variable. It is important to note that the password used for authentication must be an app password.
