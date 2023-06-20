@@ -54,7 +54,7 @@ The infrastructure layer deals with external systems, databases, and communicati
 
 Repositories are an essential part of the application architecture, providing an abstraction layer between the domain logic and the underlying data persistence mechanism. In our project, we have embraced the concept of having a separate repository for each aggregate root.
 
-An aggregate root is a concept from Domain-Driven Design (DDD) that represents a group of related entities treated as a single unit. It acts as a boundary for consistency and transactional boundaries within the domain model. The aggregate root encapsulates one or more entities and defines the rules and operations that govern their interactions. As a result, we have the following repositories: **CustomersRepository**, **OrdersRepository**, **ProductsRepository**, and **ManagersRepository**.
+An aggregate root is a concept from Domain-Driven Design (DDD) that represents a group of related entities treated as a single unit. It acts as a boundary for consistency and transactional boundaries within the domain model. The aggregate root encapsulates one or more entities and defines the rules and operations that govern their interactions. As a result, we have the following repositories: **CustomersRepository**, **OrdersRepository**, **ProductsRepository** and **ManagersRepository**.
 
 These repositories serve as a bridge, enabling the application to interact with the data storage without directly coupling the domain logic to specific implementation details. They adhere to the principles of the Clean Architecture, promoting separation of concerns and decoupling the codebase from infrastructure-specific considerations.
 
