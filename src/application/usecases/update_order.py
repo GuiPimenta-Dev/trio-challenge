@@ -2,8 +2,8 @@ from dataclasses import dataclass
 from typing import List, Optional
 
 from src.application.errors.bad_request import BadRequest
-from src.application.errors.forbidden import Unauthorized
 from src.application.errors.not_found import NotFound
+from src.application.errors.unauthorized import Unauthorized
 from src.application.ports.repositories.customers import CustomersRepository
 from src.application.ports.repositories.orders import OrdersRepository
 from src.application.ports.repositories.products import ProductsRepository

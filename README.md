@@ -29,7 +29,7 @@ The Order entity in this project has been designed utilizing the State design pa
 
 - **Overhead for Simple State Machines**: Applying the State design pattern might be considered overkill if the state machine has only a few states or rarely changes. If the order state machine is relatively simple and there are no plans for frequent changes or additions to the states, using the State design pattern may introduce unnecessary complexity.
 
-I decided to use the State design pattern for the Order entity based on the possibility to easily include new status scenarios in the future.
+We decided to use the State design pattern for the Order entity based on the possibility to easily include new status scenarios in the future.
 
 ## Application Layer
 
@@ -52,17 +52,17 @@ The infrastructure layer deals with external systems, databases, and communicati
 
 ### Repositories
 
-Repositories are used to provide an abstraction layer between the application's domain and the data persistence mechanism, such as a database or external APIs. They serve as a bridge that allows the application to interact with the underlying data storage without directly coupling the domain logic to specific implementation details.
+Repositories are an essential part of the application architecture, providing an abstraction layer between the domain logic and the underlying data persistence mechanism. In our project, we have embraced the concept of having a separate repository for each aggregate root. An aggregate root is a concept from Domain-Driven Design (DDD) that represents a group of related entities treated as a single unit. It acts as a boundary for consistency and transactional boundaries within the domain model. The aggregate root encapsulates one or more entities and defines the rules and operations that govern their interactions. As a result, we have the following repositories: **CustomersRepository**, **OrdersRepository**, **ProductsRepository**, and **ManagersRepository**.
 
-For this project, in-memory repositories were utilized to allow us to focus on the core domain and avoid dealing with infrastructure details during development. This approach enabled us to rapidly prototype and iterate on the application's functionality without the need for actual databases or external systems.
+These repositories serve as a bridge, enabling the application to interact with the data storage without directly coupling the domain logic to specific implementation details. They adhere to the principles of the Clean Architecture, promoting separation of concerns and decoupling the codebase from infrastructure-specific considerations.
 
-However, adhering to the principles of the Clean Architecture, we have ensured that the codebase is decoupled from specific implementations. This provides us with the flexibility to easily replace these in-memory repositories with real implementations and create adapters for seamless integration with actual databases or external systems in a production environment.
+We opted for in-memory repositories to simplify and expedite the prototyping and iteration processes. This approach allowed us to focus on the core domain while temporarily abstracting away the intricacies of working with actual databases or external systems.
 
-By following the dependency inversion and dependency injection principles, we can abstract the data access and communication mechanisms, enabling the system to interact with various storage solutions or external services without impacting the core domain logic. This promotes maintainability, extensibility, and the ability to adapt the application to changing requirements or future enhancements.
+However, it is crucial to note that our architecture is designed to be flexible and adaptable. We have followed the principles of dependency inversion and dependency injection to ensure that the data access and communication mechanisms can be easily replaced or integrated with real implementations as required in a production environment.
 
-Thus, while the in-memory repositories were suitable for the development phase, the architecture supports the seamless transition to real implementations and integration with actual databases or external systems when deploying the application to a production environment.
+By adhering to these architectural principles, we promote maintainability, extensibility, and the ability to adapt to evolving requirements or future enhancements. Our codebase remains decoupled from specific implementations, enabling seamless transitions to real repositories and smooth integration with actual databases or external systems when deploying the application to production.
 
-By leveraging the principles of the Clean Architecture, we have ensured that the system remains flexible, scalable, and future-proof, allowing for the smooth integration of various infrastructure components as needed.
+The architecture we have embraced provides the foundation for a flexible, scalable, and future-proof system, capable of seamlessly incorporating various infrastructure components as needed.
 
 ### Gateways
 
@@ -79,7 +79,7 @@ To create a gmail app password follow this instructions:
 - From the dropdown menus, select the appropriate options for the app and device you want to generate the app password for. For example, you can choose "Mail" as the app and "Windows Computer" as the device.
 - Click on the "Generate" button.
 - Google will generate a unique app password for the selected app and device combination. Make sure to copy this password or keep it in a secure place as it will be displayed only once.
-  -Use the generated app password in your application or device settings where you need to enter your Gmail password. Note that you won't use your regular Gmail account password for these cases.
+- Use the generated app password in your application or device settings where you need to enter your Gmail password. Note that you won't use your regular Gmail account password for these cases.
 
 ### Brokers
 
@@ -89,7 +89,9 @@ Using brokers in our system brings several advantages. Firstly, by enabling asyn
 
 Moreover, utilizing brokers helps us adhere to the single responsibility principle. With the use of brokers, the update order status endpoint can focus solely on changing the status without the responsibility of handling email notifications. This separation of concerns enhances the maintainability and testability of our codebase.
 
-In this project, an in-memory broker implementation was chosen for simplicity. However, it's important to note that we have the flexibility to easily create an adapter and to integrate a more robust and scalable message brokers like Redis or RabbitMQ. These real brokers offer additional features such as message persistence, queuing, and fault tolerance, which are crucial for handling email notifications reliably and efficiently at scale.
+In this project, an in-memory broker implementation was chosen for simplicity. However, it's important to note that we have the flexibility to easily create an adapter and integrate a more robust and scalable message broker like Redis or RabbitMQ. These real brokers offer additional features such as message persistence, queuing, and fault tolerance, which are crucial for handling email notifications reliably and efficiently at scale.
+
+While it is true that including the broker introduces a certain level of complexity that might be considered overkill, the decision was driven by the necessity for improved response times in a production environment. Additionally, the inclusion of the broker eliminates the need for the update order status use case to possess knowledge about customer email details. Instead, it simply emits a domain event of Status Changed, allowing the designated event handler to take care of the email notification.
 
 By leveraging brokers, we achieve improved performance, maintainable code, and the ability to scale our system seamlessly as per our requirements.
 
@@ -107,14 +109,14 @@ The application has the following endpoints:
         --url http://localhost:8000/orders \
         --header 'Content-Type: application/json' \
         --data '{
-        "customer_id": "customer",
-        "products": [
-        {
-        "name": "Latte",
-        "variation": "Vanilla"
-        }
-        ],
-        "location": "take-away"
+            "customer_id": "customer",
+            "products": [
+                {
+                    "name": "Latte",
+                    "variation": "Vanilla"
+                }
+            ],
+            "location": "take-away"
         }'
 
 - `GET /orders`: Retrieves the details of all orders.
@@ -158,9 +160,13 @@ Download the Insomnia collection clicking in the button below.
 
 ## Test Coverage
 
-The project has been developed with a strong focus on unit testing. Unit tests have been implemented to achieve 100% coverage for the entities and use cases. The tests ensure the correctness and reliability of the system by validating the behavior of individual components and their interactions.
+The project has been developed following the Test-Driven Development (TDD) approach, employing the Red-Green-Refactor methodology. This approach emphasizes the creation of unit tests prior to writing the actual code.
 
-The Test Data Builder Pattern was utilized to create various test scenarios and conditions. This pattern allows for the convenient creation of test data with different configurations, making it easier to verify the behavior of the system under different circumstances. By using the Test Data Builder Pattern, it becomes effortless to create complex and diverse test cases, ensuring thorough testing of the application's functionality.
+Throughout the development process, unit tests were implemented to achieve comprehensive coverage for both entities and use cases. By aiming for 100% test coverage, we ensured that the system's behavior and functionality were thoroughly validated. These tests played a crucial role in guaranteeing the correctness and reliability of the system, as they assessed the behavior of individual components and their interactions.
+
+To facilitate the creation of diverse and complex test scenarios, we utilized the Test Data Builder Pattern. This pattern allowed us to conveniently generate test data with different configurations, enabling us to verify the system's behavior under various circumstances. By employing the Test Data Builder Pattern, we ensured that our test cases were comprehensive, exhaustive, and representative of real-world scenarios.
+
+The combination of TDD and the Test Data Builder Pattern has enabled us to develop a robust and well-tested application. Through rigorous testing and adherence to best practices, we have strived to deliver a reliable and high-quality solution.
 
 | File                                            | Stmts   | Miss  | Cover    |
 | ----------------------------------------------- | ------- | ----- | -------- |
