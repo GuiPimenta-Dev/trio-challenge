@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This document outlines the technical design for implementing the given tasks while following clean architecture and domain-driven design principles.
+This repository is dedicated to solving the challenge proposed in the link: https://trio.notion.site/Trio-Coffee-Shop-Challenge-a0b21f7d13ed489ba736973d4c165877
 
 ## Core Domain
 
